@@ -1,10 +1,9 @@
-let mongoose = require("mongoose");
-let Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-let AuthorModelSchema = new Schema({
+const AuthorModelSchema = new Schema({
   firstName: {
     type: String,
-    ref: "Author",
     required: [true, "First name is required!"],
   },
   lastName: {

@@ -2,7 +2,7 @@ let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
 let BookModelSchema = new Schema({
-  author_id: {
+  author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Author",
     required: [true, "Author field is required!"],
