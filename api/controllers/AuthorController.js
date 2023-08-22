@@ -1,7 +1,6 @@
 const { Author } = require("../models/AuthorModel");
 
 
-
 exports.createAuthor = async (req, res) => {
   try {
     const authorData = {
@@ -90,6 +89,43 @@ exports.getAuthorById = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'An error occurred while fetching the author data.',
+      error: error.message,
+    });
+  }
+};
+
+exports.updateAuthor = async (req, res) => {
+  const authorId = req.params.id;
+
+  try {
+    const updatedAuthorData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName
+    };
+
+    console.log('updatedAuthorData', updatedAuthorData)
+
+    const updatedAuthor = await Book.findByIdAndUpdate(authorId, updatedAuthorData, {
+      new: true,
+    });
+    console.log('updatedAuthor', updatedAuthor)
+
+    if (!updatedAuthor) {
+      return res.status(404).json({
+        success: false,
+        message: 'Author not found.',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Author updated!',
+      data: updatedAuthor,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred while updating the author.',
       error: error.message,
     });
   }

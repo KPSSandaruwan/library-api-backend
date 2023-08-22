@@ -4,4 +4,5 @@ module.exports = function (app) {
   app.post("/createBook", BookController.createBook);
   app.get("/getAllBooks/:skip/:limit", BookController.getAllBooks);
   app.get("/getBookById/:id", BookController.getBookById);
+  app.put("/updateBook/:id", BookController.updateBook);
 };

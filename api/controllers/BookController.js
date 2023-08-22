@@ -106,3 +106,41 @@ exports.getBookById = async (req, res) => {
     });
   }
 };
+
+exports.updateBook = async (req, res) => {
+  const bookId = req.params.id;
+
+  try {
+    const updatedBookData = {
+      author: req.body.author,
+      name: req.body.bookName,
+      isbnNumber: req.body.isbn,
+    };
+
+    console.log('updatedBookData', updatedBookData)
+
+    const updatedBook = await Book.findByIdAndUpdate(bookId, updatedBookData, {
+      new: true,
+    });
+    console.log('updatedBook', updatedBook)
+
+    if (!updatedBook) {
+      return res.status(404).json({
+        success: false,
+        message: 'Book not found.',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Book updated!',
+      data: updatedBook,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'An error occurred while updating the book.',
+      error: error.message,
+    });
+  }
+};
