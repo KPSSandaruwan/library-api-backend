@@ -37,20 +37,35 @@ exports.getAllAuthors = async (req, res) => {
   try {
     const totalAuthors = await Author.countDocuments();
 
-    const authors = await Author.aggregate([
-      {
-        $skip: params.skip,
-      },
-      {
-        $limit: params.limit,
-      },
-      {
-        $project: {
-          firstName: 1,
-          lastName: 1,
+    let pipline = [];
+
+    if (params.limit !== 0) {
+      pipline = [
+        {
+          $skip: params.skip * params.limit,
         },
-      },
-    ]);
+        {
+          $limit: params.limit,
+        },
+        {
+          $project: {
+            firstName: 1,
+            lastName: 1,
+          },
+        },
+      ]
+    } else {
+      pipline = [
+        {
+          $project: {
+            firstName: 1,
+            lastName: 1,
+          }
+        }
+      ]
+    }
+
+    const authors = await Author.aggregate(pipline);
 
     return res.status(200).json({
       success: true,

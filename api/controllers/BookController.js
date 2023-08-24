@@ -60,7 +60,7 @@ exports.getAllBooks = async (req, res) => {
         $project: {
           name: 1,
           isbnNumber: 1,
-          authorData: { firstName: 1, lastName: 1 },
+          authorData: { firstName: 1, lastName: 1, _id: 1 },
         },
       },
     ]);
